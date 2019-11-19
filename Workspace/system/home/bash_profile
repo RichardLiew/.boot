@@ -1,0 +1,166 @@
+#******************************************************************
+#
+# Term font must be "Meslo LG S DZ Regular 12pt".
+#
+#******************************************************************
+
+export WORKSPACE="${HOME}/WORKSPACE/MACOS_SIERRA"
+export WORK_HOME="${WORKSPACE}/SYSTEM/HOME"
+
+export PACKAGE_PATH="${WORKSPACE}/SYSTEM/PACKAGES"
+export SHUNITTEST_HOME="${PACKAGE_PATH}/shunit2/source/2.1/src"
+export POWERLINE_SHELL_HOME="${HOME}/.powerline-shell"
+
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+export PIPENV_VENV_IN_PROJECT=1
+#source $(brew --prefix autoenv)/activate.sh
+export DIRENV_ALLOW=${HOME}
+eval "$(direnv hook bash)"
+#show_virtual_env() {
+#  if [ -n "${VIRTUAL_ENV}" ]; then
+#    echo "($(basename ${VIRTUAL_ENV}))"
+#  fi
+#}
+#export -f show_virtual_env
+#PS1="$(show_virtual_env)"$PS1
+DIRENV_LOG_FORMAT=""
+
+export WORKON_HOME="${HOME}/.virtualenvs"
+#[ -s "${WORKON_HOME}/virtualenvwrapper.sh" ] && \
+#    source "${WORKON_HOME}/virtualenvwrapper.sh"
+
+export NODE_PATH="/usr/local/lib/node_modules"
+export NVM_DIR=${HOME}/.nvm
+[ -s "${NVM_DIR}/nvm.sh" ] && source "${NVM_DIR}/nvm.sh"
+
+#******************************************************************
+#
+#    1. directory
+#    2. symbolic link
+#    3. socket
+#    4. pipe
+#    5. executable
+#    6. block special
+#    7. character special
+#    8. executable with setuid bit set
+#    9. executable with setgid bit set
+#    10. directory writable to others, with sticky bit
+#    11. directory writable to others, without sticky
+#
+#******************************************************************
+#
+#    a black
+#    b red
+#    c green
+#    d brown
+#    e blue
+#    f magenta
+#    g cyan
+#    h light grey
+#    A bold black, usually shows up as dark grey
+#    B bold red
+#    C bold green
+#    D bold brown, usually shows up as yellow
+#    E bold blue
+#    F bold magenta
+#    G bold cyan
+#    H bold light grey; looks like bright white
+#    x default foreground or background
+#
+#******************************************************************
+
+export LSCOLORS="exfxgxdxCxhxHxabagacad"
+export CLICOLOR="yes"
+export LS_OPTIONS="--color=auto"
+
+alias c="cd"
+
+alias ll="ls -Gl"
+alias la="ll -Ga"
+alias lh="ll -h"
+alias l="ls -Gl"
+alias ls="ls -G"
+alias v="vim"
+alias vi="vim"
+
+alias dir="dir --color=auto"
+alias vdir="vdir --color=auto"
+alias grep="grep --color=auto"
+alias fgrep="fgrep --color=auto"
+alias egrep="egrep --color=auto"
+alias tree="tree -C"
+alias sh="bash"
+alias e="/usr/local/bin/emacs"
+alias emacs="/usr/local/bin/emacs"
+alias prp="pipenv run python"
+alias pun="pipenv run"
+alias psh="pipenv shell; bash --login"
+
+if brew list | grep coreutils > /dev/null; then
+    PATH="$(brew --prefix coreutils)/libexec/gnubin:${PATH}"
+    alias ls='ls -F --show-control-chars --color=auto'
+    eval `gdircolors -b ${HOME}/.dir_colors`
+fi
+
+export PATH
+
+#******************************************************************
+# Enable mouse scroll in VIM.
+defaults write com.googlecode.iterm2 AlternateMouseScroll -bool true
+
+#******************************************************************
+
+#sudo scutil --set HostName 'ayoume.com'
+#sudo scutil --set LocalHostName 'ayoume'
+#sudo scutil --set ComputerName 'Zichoole'
+
+#******************************************************************
+#
+#   Front             Back             Color
+#   ------------------------------------------
+#   30                40               Black
+#   31                41               Red
+#   32                42               Green
+#   33                43               Yellow
+#   34                44               Blue
+#   35                45               Purple
+#   36                46               Cyan
+#   37                47               White
+#
+#
+#   Code              Meaning
+#   ------------------------------------------
+#   0                 OFF
+#   1                 Highlight
+#   4                 Underline
+#   5                 Flicker
+#   7                 Reverse
+#   8                 Invisible
+#
+#*******************************************************************
+
+# Use 'print(u'char'.encode('unicode_escape'))' by python to show unicode.
+#git clone https://github.com/banga/powerline-shell.git
+function powerline_shell() {
+    export PS1="$(${POWERLINE_SHELL_HOME}/powerline-shell.py $? 2> /dev/null)"
+}
+export PROMPT_COMMAND="powerline_shell; ${PROMPT_COMMAND}"
+
+#export PS1='\[\033[01;36m\][\[\033[01;35m\]\u\[\033[01;32m\]@\[\033[01;33m\]\H \[\033[01;34m\]\W\[\033[01;36m\]]\[\033[01;31m\]\$\[\033[0m\] '
+#export PS1="\[\e[38;5;250m\]\[\e[48;5;240m\]\[\033[01;35m\] \u \[\e[48;5;238m\]\[\e[38;5;240m\]\[\e[38;5;250m\]\[\e[48;5;238m\]\[\033[01;32m\] @\[\033[01;33m\]\H \[\e[48;5;31m\]\[\e[38;5;238m\]\[\e[38;5;15m\]\[\e[48;5;31m\]\[\033[01;36m\] \W \[\e[48;5;236m\]\[\e[38;5;31m\]\[\e[38;5;15m\]\[\e[48;5;236m\]\[\033[01;31m\] \$ \[\e[0m\]\[\e[38;5;236m\]\[\e[0m\]"
+
+# sudo python -m pip install powerline-status
+# sudo python -m pip show powerline-status
+#export TERM="screen-256color"
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+#POWERLINE_HOME="${HOME}/.pyenv/versions/3.6.1/lib/python3.6/site-packages/powerline"
+#sudo python -m pip install psutil
+#source "${POWERLINE_HOME}/bindings/bash/powerline.sh"
+
+export GOROOT="/usr/local/Cellar/go/1.12.1/libexec/"
+export GOPATH="${HOME}/WORKSPACE/MACOS_SIERRA/ENVIRONMENTS/GOLANG/PATH/bin"
+export GO111MODULE=auto
+export PATH="${PATH}:${GOPATH}"

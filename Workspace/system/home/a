@@ -1,0 +1,136 @@
+14,20c14,20
+< #export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home"
+< #export CLASSPATH="${CLASSPATH}:${JAVA_HOME}/lib:."
+< #PATH="${PATH}:${JAVA_HOME}/bin"
+< 
+< #export NDK_HOME="${HOME}/WORKSPACE/MACOS_SIERRA/LIBRARIES/android-ndk-r15c"
+< #export A_NDK_ROOT="${NDK_HOME}"
+< #PATH="${PATH}:${NDK_HOME}"
+---
+> export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home"
+> export CLASSPATH="${CLASSPATH}:${JAVA_HOME}/lib:."
+> PATH="${PATH}:${JAVA_HOME}/bin"
+> 
+> export NDK_HOME="${HOME}/WORKSPACE/MACOS_SIERRA/LIBRARIES/android-ndk-r15c"
+> export A_NDK_ROOT="${NDK_HOME}"
+> PATH="${PATH}:${NDK_HOME}"
+38c38
+< #export WORKON_HOME="${HOME}/.virtualenvs"
+---
+> export WORKON_HOME="${HOME}/.virtualenvs"
+42,44c42,44
+< #export NODE_PATH="/usr/local/lib/node_modules"
+< #export NVM_DIR=${HOME}/.nvm
+< #[ -s "${NVM_DIR}/nvm.sh" ] && source "${NVM_DIR}/nvm.sh"
+---
+> export NODE_PATH="/usr/local/lib/node_modules"
+> export NVM_DIR=${HOME}/.nvm
+> [ -s "${NVM_DIR}/nvm.sh" ] && source "${NVM_DIR}/nvm.sh"
+103,104c103,104
+< #alias e="/usr/local/bin/emacs"
+< #alias emacs="/usr/local/bin/emacs"
+---
+> alias e="/usr/local/bin/emacs"
+> alias emacs="/usr/local/bin/emacs"
+123,124c123,124
+< #sudo scutil --set HostName 'huaji-tech.com'
+< #sudo scutil --set LocalHostName 'huaji-tech'
+---
+> #sudo scutil --set HostName 'ayoume.com'
+> #sudo scutil --set LocalHostName 'ayoume'
+155,159c155
+< 	function random_emoji() {
+< 		local -r emojis=("🤔" "😃" "😂" "😊" "🤗" "😊" "😁")
+< 		echo "${emojis[$((${RANDOM} % ${#emojis[@]}))]}"
+< 	}
+< 	export PS1="$(${POWERLINE_SHELL_HOME}/powerline-shell.py $? 2> /dev/null)$(random_emoji) "
+---
+>     export PS1="$(${POWERLINE_SHELL_HOME}/powerline-shell.py $? 2> /dev/null)"
+163,164d158
+< #export PS1="\[\e]0;\u@\H: \w\a\]\[\e[48;5;226m\]\[\e[38;5;20m\]\[\e[48;5;226m\] \t \d \[\e[48;5;31m\]\[\e[38;5;226m\]\[\e[38;5;87m\]\[\e[48;5;31m\] \u \[\e[48;5;90m\]\[\e[38;5;31m\]\[\e[38;5;15m\]\[\e[48;5;90m\] \[\033[32m\]@\[\033[33m\]\H \[\033[0m\]\[\e[48;5;58m\]\[\e[38;5;90m\]\[\e[38;5;214m\]\[\e[48;5;58m\] \W \[\e[0m\]\[\e[38;5;58m\]\[\e[0m\]\[\e[0m\]\[\e[48;5;239m\]\[\e[0m\]\[\e[38;5;255m\]\[\e[48;5;239m\] \$ \[\e[0m\]\[\e[38;5;239m\]\[\e[0m\]"
+< 
+171,178c165,166
+< export LANG="en_US.UTF-8"
+< export LC_COLLATE="en_US.UTF-8"
+< export LC_CTYPE="en_US.UTF-8"
+< export LC_MESSAGES="en_US.UTF-8"
+< export LC_MONETARY="en_US.UTF-8"
+< export LC_NUMERIC="en_US.UTF-8"
+< export LC_TIME="en_US.UTF-8"
+< export LC_ALL="en_US.UTF-8"
+---
+> export LC_ALL=en_US.UTF-8
+> export LANG=en_US.UTF-8
+183,249c171,174
+< export GOROOT="/usr/local/Cellar/go/1.11.5/libexec"
+< export GOPATH="${WORKSPACE}/ENVIRONMENTS/GOLANG/PATH"
+< export GOBIN="${GOPATH}/bin"
+< export PATH="${PATH}:${GOBIN}"
+< export PATH="${PATH}:${HOME}/.lsix"
+< export GO111MODULE=on
+< 
+< # If not running interactively, don't do anything
+< case $- in
+<   *i*) ;;
+<     *) return;;
+< esac
+< 
+< # Path to the bash it configuration
+< export BASH_IT="${HOME}/.bash_it"
+< 
+< # Lock and Load a custom theme file.
+< # Leave empty to disable theming.
+< # location /.bash_it/themes/
+< export BASH_IT_THEME='pure'
+< 
+< # (Advanced): Change this to the name of your remote repo if you
+< # cloned bash-it with a remote other than origin such as `bash-it`.
+< # export BASH_IT_REMOTE='bash-it'
+< 
+< # Your place for hosting Git repos. I use this for private repos.
+< export GIT_HOSTING='git@git.domain.com'
+< 
+< # Don't check mail when opening terminal.
+< unset MAILCHECK
+< 
+< # Change this to your console based IRC client of choice.
+< export IRC_CLIENT='irssi'
+< 
+< # Set this to the command you use for todo.txt-cli
+< export TODO="t"
+< 
+< # Set this to false to turn off version control status checking within the prompt for all themes
+< export SCM_CHECK=true
+< 
+< # Set Xterm/screen/Tmux title with only a short hostname.
+< # Uncomment this (or set SHORT_HOSTNAME to something else),
+< # Will otherwise fall back on $HOSTNAME.
+< #export SHORT_HOSTNAME=$(hostname -s)
+< 
+< # Set Xterm/screen/Tmux title with only a short username.
+< # Uncomment this (or set SHORT_USER to something else),
+< # Will otherwise fall back on $USER.
+< #export SHORT_USER=${USER:0:8}
+< 
+< # Set Xterm/screen/Tmux title with shortened command and directory.
+< # Uncomment this to set.
+< #export SHORT_TERM_LINE=true
+< 
+< # Set vcprompt executable path for scm advance info in prompt (demula theme)
+< # https://github.com/djl/vcprompt
+< #export VCPROMPT_EXECUTABLE=~/.vcprompt/bin/vcprompt
+< 
+< # (Advanced): Uncomment this to make Bash-it reload itself automatically
+< # after enabling or disabling aliases, plugins, and completions.
+< # export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
+< 
+< # Uncomment this to make Bash-it create alias reload.
+< # export BASH_IT_RELOAD_LEGACY=1
+< 
+< # Load Bash It
+< source "$BASH_IT"/bash_it.sh
+---
+> export GOROOT="/usr/local/Cellar/go/1.12.1/libexec/"
+> export GOPATH="${HOME}/WORKSPACE/MACOS_SIERRA/ENVIRONMENTS/GOLANG/PATH/bin"
+> export GO111MODULE=auto
+> export PATH="${PATH}:${GOPATH}"

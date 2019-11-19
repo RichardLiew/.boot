@@ -1,1 +1,37 @@
+##################################################################
+#
+# Common Ignorations
+#
+##################################################################
+
+.DS_Store
+
+
+##################################################################
+#
+# System Ignorations
+#
+##################################################################
+
+#Workspace/system/temporary/
+#Workspace/system/links/.temp/
+
+#Workspace/system/backup/
+#Workspace/system/links/.backup/
+
+#Workspace/system/home/parallels/
+#Workspace/system/links/.parallels/
+
+#Workspace/system/home/nvm/
+#Workspace/system/links/.nvm/
+
+
+##################################################################
+#
+# Vim Ignorations
+#
+##################################################################
+
+Workspace/system/home/vim/bundle/
+Workspace/system/links/.vim/bundle/
 
