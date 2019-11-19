@@ -1,7 +1,7 @@
-" Copyright (c) 2017 Ayoume Inc.
+" Copyright (c) 2019 Ayoume Inc.
 " All rights reserved.
 "
-" "Vim Options" version 1.0
+" "Vim Settings" version 1.0
 "
 " Redistribution and use in source and binary forms, with or without
 " modification, are permitted provided that the following conditions are
@@ -30,13 +30,13 @@
 " OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 "
 " ---
-" Author: Zich
+" Author: Zichoole
 " E-mail: zichoole@gmail.com
-" Date  : 2017-05-27 12:20:00
+" Date  : 2019-05-27 12:20:00
 "
 " ---
 " Description:
-"   Options for vim editor.
+"   Settings for vim editor.
 "
 " ---
 " Sample:
@@ -264,7 +264,7 @@ nnoremap <C-D> :ToggleBufExplorer<CR>
 "   1. cd ~/.vim/bundle/YouCompleteMe
 "   2. ./install --all
 Bundle "Valloric/YouCompleteMe"
-"let g:ycm_server_python_interpreter="/Users/Zichoole/.pyenv/shims/python"
+"let g:ycm_server_python_interpreter="~/.pyenv/shims/python"
 "let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'
 "let g:ycm_autoclose_preview_window_after_completion = 1
 "nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>

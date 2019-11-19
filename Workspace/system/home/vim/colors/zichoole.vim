@@ -1,7 +1,7 @@
-" Copyright (c) 2017 Zichoole Inc.
+" Copyright (c) 2019 Ayoume Inc.
 " All rights reserved.
 "
-" "Zichoole Vim Color Scheme" version 1.0
+" "Vim Color Scheme" version 1.0
 "
 " Redistribution and use in source and binary forms, with or without
 " modification, are permitted provided that the following conditions are
@@ -13,7 +13,7 @@
 " copyright notice, this list of conditions and the following disclaimer
 " in the documentation and/or other materials provided with the
 " distribution.
-"    * Neither the name of Zichoole Inc. nor the names of its
+"    * Neither the name of Ayoume Inc. nor the names of its
 " contributors may be used to endorse or promote products derived from
 " this software without specific prior written permission.
 "
@@ -30,13 +30,13 @@
 " OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 "
 " ---
-" Author: MrForever
+" Author: Zichoole
 " E-mail: zichoole@gmail.com
-" Date  : 2017-05-27 12:20:00
+" Date  : 2019-05-27 12:20:00
 "
 " ---
 " Description:
-"   Zichoole vim color scheme.
+"   Vim color scheme.
 "
 "************************************************************************
 
