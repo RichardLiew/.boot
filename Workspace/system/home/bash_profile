@@ -1,40 +1,127 @@
+# Copyright (c) 2019 Ayoume Inc.
+# All rights reserved.
+#
+# "Bash Settings" version 1.0
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#
+#    * Redistributions of source code must retain the above copyright
+# notice, this list of conditions and the following disclaimer.
+#    * Redistributions in binary form must reproduce the above
+# copyright notice, this list of conditions and the following disclaimer
+# in the documentation and/or other materials provided with the
+# distribution.
+#    * Neither the name of Ayoume Inc. nor the names of its
+# contributors may be used to endorse or promote products derived from
+# this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+# OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# ---
+# Author: Zichoole
+# E-mail: zichoole@gmail.com
+# Date  : 2019-05-27 12:20:00
+#
+# ---
+# Description:
+#   Settings for bash shell.
+#
+#******************************************************************
+
+
 #******************************************************************
 #
 # Term font must be "Meslo LG S DZ Regular 12pt".
 #
 #******************************************************************
 
-export WORKSPACE="${HOME}/WORKSPACE/MACOS_SIERRA"
-export WORK_HOME="${WORKSPACE}/SYSTEM/HOME"
 
-export PACKAGE_PATH="${WORKSPACE}/SYSTEM/PACKAGES"
-export SHUNITTEST_HOME="${PACKAGE_PATH}/shunit2/source/2.1/src"
+#******************************************************************
+#
+# exports
+#
+#******************************************************************
+
+export WORKSPACE="${HOME}/Workspace"
 export POWERLINE_SHELL_HOME="${HOME}/.powerline-shell"
+
+
+#******************************************************************
+#
+# pyenv
+#
+#******************************************************************
 
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 export PIPENV_VENV_IN_PROJECT=1
+
+
+#******************************************************************
+#
+# autoenv
+#
+#******************************************************************
+
 #source $(brew --prefix autoenv)/activate.sh
+
+
+#******************************************************************
+#
+# direnv
+#
+#******************************************************************
+
 export DIRENV_ALLOW=${HOME}
+export DIRENV_LOG_FORMAT=""
 eval "$(direnv hook bash)"
-#show_virtual_env() {
+#function show-virtualenv() {
 #  if [ -n "${VIRTUAL_ENV}" ]; then
 #    echo "($(basename ${VIRTUAL_ENV}))"
 #  fi
 #}
-#export -f show_virtual_env
-#PS1="$(show_virtual_env)"$PS1
-DIRENV_LOG_FORMAT=""
+#export PS1="$(show-virtualenv)${PS1}"
 
-export WORKON_HOME="${HOME}/.virtualenvs"
-#[ -s "${WORKON_HOME}/virtualenvwrapper.sh" ] && \
-#    source "${WORKON_HOME}/virtualenvwrapper.sh"
+
+#******************************************************************
+#
+# virtualenvwrappe
+#
+#******************************************************************
+
+export VIRTUALENV_HOME="${HOME}/.virtualenvs"
+#[ -s "${VIRTUALENV_HOME}/virtualenvwrapper.sh" ] && \
+#  source "${VIRTUALENV_HOME}/virtualenvwrapper.sh"
+
+
+#******************************************************************
+#
+# node
+#
+#******************************************************************
 
 export NODE_PATH="/usr/local/lib/node_modules"
 export NVM_DIR=${HOME}/.nvm
 [ -s "${NVM_DIR}/nvm.sh" ] && source "${NVM_DIR}/nvm.sh"
 
+
+#******************************************************************
+#
+# lscolors
+#
 #******************************************************************
 #
 #    1. directory
@@ -75,46 +162,78 @@ export LSCOLORS="exfxgxdxCxhxHxabagacad"
 export CLICOLOR="yes"
 export LS_OPTIONS="--color=auto"
 
-alias c="cd"
 
+#******************************************************************
+#
+# aliases
+#
+#******************************************************************
+
+# bash
+alias sh="bash"
+
+# paths
+alias c="cd"
+alias dir="dir --color=auto"
+alias vdir="vdir --color=auto"
+
+# ls
 alias ll="ls -Gl"
 alias la="ll -Ga"
 alias lh="ll -h"
 alias l="ls -Gl"
 alias ls="ls -G"
+
+# vim
 alias v="vim"
 alias vi="vim"
 
-alias dir="dir --color=auto"
-alias vdir="vdir --color=auto"
+# grep
 alias grep="grep --color=auto"
 alias fgrep="fgrep --color=auto"
 alias egrep="egrep --color=auto"
+
+# tree
 alias tree="tree -C"
-alias sh="bash"
-alias e="/usr/local/bin/emacs"
-alias emacs="/usr/local/bin/emacs"
+
+# pipenv
 alias prp="pipenv run python"
 alias pun="pipenv run"
 alias psh="pipenv shell; bash --login"
 
+
+#******************************************************************
+#
+# coreutils
+#
+#******************************************************************
+
 if brew list | grep coreutils > /dev/null; then
-    PATH="$(brew --prefix coreutils)/libexec/gnubin:${PATH}"
-    alias ls='ls -F --show-control-chars --color=auto'
-    eval `gdircolors -b ${HOME}/.dir_colors`
+  export PATH="$(brew --prefix coreutils)/libexec/gnubin:${PATH}"
+  alias ls='ls -F --show-control-chars --color=auto'
+  eval `gdircolors -b ${HOME}/.dir_colors`
 fi
 
-export PATH
 
 #******************************************************************
-# Enable mouse scroll in VIM.
+#
+# enable mouse scroll in vim
+#
+#******************************************************************
+
 defaults write com.googlecode.iterm2 AlternateMouseScroll -bool true
 
+
+#******************************************************************
+#
+# scutil
+#
 #******************************************************************
 
-#sudo scutil --set HostName 'ayoume.com'
-#sudo scutil --set LocalHostName 'ayoume'
-#sudo scutil --set ComputerName 'Zichoole'
+#sudo scutil --set HostName "ayoume.com"
+#sudo scutil --set LocalHostName "localhost"
+#sudo scutil --set ComputerName "Zich's Macbook Pro"
+
 
 #******************************************************************
 #
@@ -141,26 +260,48 @@ defaults write com.googlecode.iterm2 AlternateMouseScroll -bool true
 #
 #*******************************************************************
 
-# Use 'print(u'char'.encode('unicode_escape'))' by python to show unicode.
-#git clone https://github.com/banga/powerline-shell.git
-function powerline_shell() {
-    export PS1="$(${POWERLINE_SHELL_HOME}/powerline-shell.py $? 2> /dev/null)"
+
+#*******************************************************************
+#
+# prompt
+#
+#*******************************************************************
+
+# random-emoji
+function random-emoji() {
+  local -r emojies=("🤔" "😃" "😂" "😊" "🤗" "😊" "😁")
+  echo "${emojis[$((${RANDOM} % ${#emojies[@]}))]}"
 }
-export PROMPT_COMMAND="powerline_shell; ${PROMPT_COMMAND}"
 
-#export PS1='\[\033[01;36m\][\[\033[01;35m\]\u\[\033[01;32m\]@\[\033[01;33m\]\H \[\033[01;34m\]\W\[\033[01;36m\]]\[\033[01;31m\]\$\[\033[0m\] '
-#export PS1="\[\e[38;5;250m\]\[\e[48;5;240m\]\[\033[01;35m\] \u \[\e[48;5;238m\]\[\e[38;5;240m\]\[\e[38;5;250m\]\[\e[48;5;238m\]\[\033[01;32m\] @\[\033[01;33m\]\H \[\e[48;5;31m\]\[\e[38;5;238m\]\[\e[38;5;15m\]\[\e[48;5;31m\]\[\033[01;36m\] \W \[\e[48;5;236m\]\[\e[38;5;31m\]\[\e[38;5;15m\]\[\e[48;5;236m\]\[\033[01;31m\] \$ \[\e[0m\]\[\e[38;5;236m\]\[\e[0m\]"
+# powerline-shell:
+#   Use 'print(u'char'.encode('unicode_escape'))' by python to show unicode.
+#   git clone https://github.com/banga/powerline-shell.git
+function powerline-shell() {
+  echo "$(${POWERLINE_SHELL_HOME}/powerline-shell.py $? 2> /dev/null)"
+  export PS1="$(${POWERLINE_SHELL_HOME}/powerline-shell.py $? 2> /dev/null)$(random-emoji) "
+}
 
-# sudo python -m pip install powerline-status
-# sudo python -m pip show powerline-status
-#export TERM="screen-256color"
-export LC_ALL=en_US.UTF-8
+# generate-prompt
+function generate-prompt() {
+  export PS1="$(powerline-shell)$(random-emoji) "
+}
+
+# prompt-command
+export PROMPT_COMMAND="generate-prompt; ${PROMPT_COMMAND}"
+
+
+#*******************************************************************
+#
+# language
+#
+#*******************************************************************
+
 export LANG=en_US.UTF-8
-#POWERLINE_HOME="${HOME}/.pyenv/versions/3.6.1/lib/python3.6/site-packages/powerline"
-#sudo python -m pip install psutil
-#source "${POWERLINE_HOME}/bindings/bash/powerline.sh"
+export LC_COLLATE=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
+export LC_MESSAGES=en_US.UTF-8
+export LC_MONETARY=en_US.UTF-8
+export LC_NUMERIC=en_US.UTF-8
+export LC_TIME=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
-export GOROOT="/usr/local/Cellar/go/1.12.1/libexec/"
-export GOPATH="${HOME}/WORKSPACE/MACOS_SIERRA/ENVIRONMENTS/GOLANG/PATH/bin"
-export GO111MODULE=auto
-export PATH="${PATH}:${GOPATH}"
