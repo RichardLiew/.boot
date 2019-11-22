@@ -1,0 +1,4 @@
+[submodule "Workspace/system/lib/shunit2"]
+	path = Workspace/system/lib/shunit2
+	url = https://github.com/zichoole/shunit2.git
+	branch = master
