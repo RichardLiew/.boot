@@ -1,0 +1,268 @@
+# NOTE: THIS DOCKERFILE IS GENERATED VIA SOME DEPENDENTS,
+#       PLEASE DO NOT EDIT IT DIRECTLY.
+#
+# Copyright (c) 2019 Ayoume Inc.
+# All rights reserved.
+#
+# "Common Docker Deployment For Development Of Golang Projects" version 1.0
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#
+#    * Redistributions of source code must retain the above copyright
+# notice, this list of conditions and the following disclaimer.
+#    * Redistributions in binary form must reproduce the above
+# copyright notice, this list of conditions and the following disclaimer
+# in the documentation and/or other materials provided with the
+# distribution.
+#    * Neither the name of Ayoume Inc. nor the names of its
+# contributors may be used to endorse or promote products derived from
+# this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+# OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES_; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# ---
+# Author:  Zichoole
+# Created: 2019-04-15 10:46:00
+# E-mail:  zichoole@gmail.com
+#
+# ---
+# Description:
+#   The common docker deployment for development of golang projects.
+#
+###############################################################################
+
+FROM python:3.7.3-alpine3.9
+
+###############################################################################
+
+LABEL Vendor="golang-development" \
+      Version="1.0.0" \
+      Description="The common docker deployment for development of golang projects."
+
+MAINTAINER Zich zichoole@gmail.com
+
+ENV USER root
+
+ENV PROJECT wfe
+
+ENV GOLANG_VERSION   1.12.5
+ENV PROTOBUF_VERSION 3.7.1
+
+USER ${USER}
+
+###############################################################################
+
+ENV TZ=Asia/Shanghai \
+    LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8
+
+ENV USERDIR=/usr/${USER}
+
+ENV WORKDIR=${USERDIR}/${PROJECT} \
+    TEMPDIR=${USERDIR}/temp \
+    BINDIR=${USERDIR}/bin
+
+ENV GOROOT=${USERDIR}/golang/root \
+    GOPATH=${USERDIR}/golang/path
+
+ENV PATH=${BINDIR}:${GOROOT}/bin:${GOPATH}/bin:${PATH}
+
+ENV GO111MODULE=on
+
+###############################################################################
+
+RUN apk add --no-cache ca-certificates
+RUN [ ! -e /etc/nsswitch.conf ] && echo "hosts: files dns" > /etc/nsswitch.conf
+
+###############################################################################
+
+RUN python -m pip install --upgrade pip
+
+###############################################################################
+
+# Core installations.
+RUN set -eux && apk update && apk add --no-cache git make bash curl
+
+# Dependencies for timezone installation.
+RUN set -eux && apk update && apk add --no-cache --virtual .timezone-deps tzdata
+
+# Dependencies for golang installation.
+RUN set -eux && apk update && apk add --no-cache --virtual .golang-deps \
+        gcc musl-dev openssl go
+
+# Dependencies for protobuf installation.
+RUN set -eux && apk update && apk add --no-cache --virtual .protobuf-deps unzip
+
+# Dependencies for fswatch installation.
+RUN set -eux && apk update && apk add --no-cache --virtual .fswatch-deps \
+        autoconf automake g++ file libtool gettext gettext-dev texinfo
+
+###############################################################################
+
+SHELL ["/bin/bash", "-c"]
+
+###############################################################################
+
+RUN set -eux \
+    && \
+    echo ${TZ} > /etc/TZ \
+    && \
+    echo ${TZ} > /etc/timezone \
+    && \
+    cp -rf /usr/share/zoneinfo/${TZ} /etc/localtime \
+    && \
+    apk del .timezone-deps \
+    && \
+    if [ ! -e /etc/localtime ]; then \
+        echo "Timezone install failed!"; \
+        exit 1;
+    fi
+
+###############################################################################
+
+RUN mkdir -p ${USERDIR} ${WORKDIR} ${TEMPDIR} ${BINDIR}
+RUN mkdir -p ${GOROOT} ${GOPATH} ${GOPATH}/src ${GOPATH}/bin ${GOPATH}/pkg
+RUN chmod -R 777 ${BINDIR} ${GOROOT} ${GOPATH}
+
+###############################################################################
+
+RUN set -eux \
+    && \
+    export \
+        GOROOT_BOOTSTRAP="$(go env GOROOT)" \
+        GOOS="$(go env GOOS)" \
+        GOARCH="$(go env GOARCH)" \
+        GOHOSTOS="$(go env GOHOSTOS)" \
+        GOHOSTARCH="$(go env GOHOSTARCH)" \
+    && \
+    case "$(apk --print-arch)" in \
+        armhf) export GOARM="6"   ;; \
+        x86)   export GO386="387" ;; \
+    esac \
+    && \
+    cd ${TEMPDIR} \
+    && \
+    gopkg="go-go${GOLANG_VERSION}" \
+    && \
+    curl -L "https://github.com/golang/go/archive/${gopkg##*-}.tar.gz" | \
+        tar -C ${TEMPDIR} -xvz \
+    && \
+    cd ${TEMPDIR}/${gopkg}/src \
+    && \
+    ./make.bash \
+    && \
+    rm -rf ${GOROOT}/pkg/bootstrap ${GOROOT}/pkg/obj \
+    && \
+    rm -rf ${TEMPDIR}/${gopkg} \
+    && \
+    apk del .golang-deps \
+    && \
+    go version \
+    && \
+    cd ${WORKDIR}
+
+###############################################################################
+
+RUN set -eux \
+    && \
+    cd ${TEMPDIR} \
+    && \
+    url="https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protoc-${PROTOBUF_VERSION}-linux-x86_64.zip" \
+    && \
+    curl -L ${url} -o ${TEMPDIR}/${url##*/} \
+    && \
+    unzip -d ${TEMPDIR} ${TEMPDIR}/${url##*/} \
+    && \
+    rm -rf ${TEMPDIR}/${url##*/} \
+    && \
+    mv ${TEMPDIR}/bin/protoc ${BINDIR} \
+    && \
+    rm -rf ${TEMPDIR}/* \
+    && \
+    apk del .protobuf-deps \
+    && \
+    protoc --version \
+    && \
+    cd ${WORKDIR}
+
+###############################################################################
+
+RUN set -eux \
+    && \
+    go get -u github.com/golang/protobuf/protoc-gen-go \
+    && \
+    protoc-gen-go --version
+
+RUN set -eux \
+    && \
+    python -m pip install grpcio-tools \
+    && \
+    python -m grpc_tools.protoc --version
+
+###############################################################################
+
+RUN set -eux \
+    && \
+    cd ${TEMPDIR} \
+    && \
+    git clone https://github.com/emcrisostomo/fswatch.git \
+    && \
+    cd ${TEMPDIR}/fswatch \
+    && \
+    ./autogen.sh && ./configure && make -j \
+    && \
+    rm -rf ${TEMPDIR}/fswatch \
+    && \
+    apk del .fswatch-deps \
+    && \
+    fswatch --version \
+    && \
+    cd ${WORKDIR}
+
+RUN set -eux \
+    && \
+    go get -u golang.org/x/lint/golint \
+    && \
+    golint --version \
+    && \
+    go get -u golang.org/x/tools/cmd/goimports \
+    && \
+    goimports --version \
+    && \
+    go get -u github.com/sqs/goreturns \
+    && \
+    goreturns --version
+
+RUN set -eux \
+    && \
+    curl -L https://pre-commit.com/install-local.py | python - \
+    && \
+    pre-commit --version
+
+###############################################################################
+
+ADD . ${WORKDIR}
+
+###############################################################################
+
+WORKDIR ${WORKDIR}
+
+###############################################################################
+
+HEALTHCHECK --interval=60m --timeout=60s --retries=10 CMD exit 0
+
+###############################################################################
+
+ENTRYPOINT ["make", "start"]
